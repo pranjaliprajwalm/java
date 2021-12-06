@@ -1,0 +1,137 @@
+Write a Spring program to demonstrate:
+1) Accept the customer information and a ticket information
+2) Create beans for customer and ticket using XML based configuration
+3) With a menu driven program accept the information and display the same
+
+Ticket.java
+package My_CustTicket;
+public class Ticket {
+int tno;
+String description;
+int price;
+Customer customer;
+public Customer getCustomer() {
+return customer;
+}
+public void setCustomer(Customer customer) {
+this.customer = customer;
+}
+
+public int getTno() {
+return tno;
+}
+public void setTno(int tno) {
+this.tno = tno;
+}
+public String getDescription() {
+return description;
+}
+public void setDescription(String description) {
+this.description = description;
+}
+public int getPrice() {
+return price;
+}
+public void setPrice(int price) {
+this.price = price;
+}
+
+@Override
+public String toString() {
+return &quot;Ticket [tno=&quot; + tno + &quot;, description=&quot; + description +
+
+&quot;, price=&quot; + price + &quot;, customer - Number =&quot; + customer.custno
++ &quot; customer - name =&quot;+customer.custname+&quot;]&quot;;
+
+}
+}
+
+Customer.java
+
+package My_CustTicket;
+public class Customer {
+int custno;
+String custname;
+public int getCustno() {
+return custno;
+}
+public void setCustno(int custno) {
+this.custno = custno;
+}
+public String getCustname() {
+return custname;
+}
+public void setCustname(String custname) {
+this.custname = custname;
+}
+
+}
+
+CustTick_Main.java
+package My_CustTicket;
+import java.util.Scanner;
+import org.springframework.context.ApplicationContext;
+import
+org.springframework.context.support.ClassPathXmlApplicationContext;
+public class CustTick_Main {
+
+public static void main(String[] args) {
+// TODO Auto-generated method stub
+ApplicationContext ac = new
+ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
+
+Customer c = ac.getBean(&quot;customer&quot;,Customer.class);
+System.out.println(&quot;Enter the customer details&quot;);
+System.out.println(&quot;enter the customer no&quot;);
+Scanner sc = new Scanner(System.in);
+c.setCustno(sc.nextInt());
+System.out.println(&quot;enter the customer name&quot;);
+c.setCustname(sc.next());
+System.out.println(&quot;Enter Ticket Details&quot;);
+System.out.println(&quot;Enter Ticket No&quot;);
+Ticket t = ac.getBean(&quot;tick&quot;,Ticket.class);
+
+// t.setCustomer(c);
+t.setTno(sc.nextInt());
+System.out.println(&quot;Enter Ticket Description&quot;);
+t.setDescription(sc.next());
+System.out.println(&quot;Enter Ticket price&quot;);
+t.setPrice(sc.nextInt());
+System.out.println(t.toString());
+
+}
+}
+
+Beans.xml
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+&lt;bean id=&quot;customer&quot; class=&quot;My_CustTicket.Customer&quot;&gt;
+&lt;!-- collaborators and configuration for this bean go here --&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;tick&quot; class=&quot;My_CustTicket.Ticket&quot; scope=&quot;prototype&quot;&gt;
+&lt;property name=&quot;customer&quot; ref=&quot;customer&quot;/&gt;
+&lt;!-- collaborators and configuration for this bean go here --&gt;
+&lt;/bean&gt;
+&lt;!-- more bean definitions go here --&gt;
+
+&lt;/beans&gt;
+
+Expected Output:
+
+Enter the customer details
+enter the customer no
+12
+enter the customer name
+asdfasd
+Enter Ticket Details
+Enter Ticket No
+25
+Enter Ticket Description
+asdfasdfd
+Enter Ticket price
+25444
+Ticket [tno=25, description=asdfasdfd, price=25444, customer - Number =12
+customer - name =asdfasd]
